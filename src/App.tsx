@@ -22,7 +22,7 @@ function App() {
           2. maxCcdSubsteps={4} контролирует максимальное число подкадров 
              для расчета непрерывных столкновений (CCD) нашей машины.
         */}
-        <Physics debug gravity={[0, -9.81, 0]} numSolverIterations={12} maxCcdSubsteps={4}>
+        <Physics gravity={[0, -9.81, 0]} numSolverIterations={12} maxCcdSubsteps={4}>
           <Scene />
         </Physics>
       </Canvas>

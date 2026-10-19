@@ -46,16 +46,16 @@ export function Ground() {
 
   return (
     <>
-      <mesh ref={meshRef2} position={[-2.285, -0.01, -1.325]} rotation-x={-Math.PI * 0.5}>
-        <planeGeometry args={[12, 12]} />
+      <mesh ref={meshRef2} position={[-2.285 * 3, -0.01, -1.325 * 3]} rotation-x={-Math.PI * 0.5}>
+        <planeGeometry args={[12 * 3, 12 * 3]} />
         <meshBasicMaterial opacity={0.325} alphaMap={gridMap} transparent={true} color={"white"} />
       </mesh>
       <mesh
         ref={meshRef}
-        position={[-2.285, -0.015, -1.325]}
+        position={[-2.285 * 3, -0.015, -1.325 * 3]}
         rotation-x={-Math.PI * 0.5}
         rotation-z={-0.079}>
-        <circleGeometry args={[6.12, 50]} />
+        <circleGeometry args={[6.12 * 3, 50]} />
         <MeshReflectorMaterial
           aoMap={aoMap}
           alphaMap={alphaMap}
@@ -87,7 +87,7 @@ export function Ground() {
         args={[10, 0.1, 10]} создает огромную твердую площадку 20x20 метров толщиной 20см.
       */}
       <RigidBody type='fixed'>
-        <CuboidCollider args={[10, 0.1, 10]} position={[-2.285, -0.11, -1.325]} />
+        <CuboidCollider args={[30, 0.1, 30]} position={[-2.285 * 3, -0.11, -1.325 * 3]} />
       </RigidBody>
     </>
   );
