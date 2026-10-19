@@ -1,17 +1,14 @@
-import {
-  Environment,
-  OrbitControls,
-  PerspectiveCamera,
-} from "@react-three/drei";
+import { Environment, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Suspense } from "react";
 import { Track } from "../features/track/Track";
 import { Ground } from "../features/track/Ground";
+import { Car } from "../features/car/Car";
 
 // Явно экспортируем именованную функцию (лучше для React Compiler)
 export function Scene() {
   return (
     <Suspense fallback={null}>
-      <Environment files="/textures/envmap.hdr" background />
+      <Environment files='/textures/envmap.hdr' background />
 
       <PerspectiveCamera makeDefault position={[-6, 3.9, 6.21]} fov={40} />
 
@@ -21,6 +18,7 @@ export function Scene() {
 
       <Track />
       <Ground />
+      <Car />
     </Suspense>
   );
 }
