@@ -2,9 +2,10 @@ import { MeshReflectorMaterial } from "@react-three/drei";
 import { useLoader } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { BufferAttribute, Mesh, RepeatWrapping, Texture, TextureLoader } from "three";
+// Импортируем физические компоненты Rapier
+import { CuboidCollider, RigidBody } from "@react-three/rapier";
 
 export function Ground() {
-  // Загрузка текстуры сетки с ленивой настройкой тайлинга и анизотропии для GPU
   const gridMap = useLoader(TextureLoader, "/textures/grid.png", (texture) => {
     if (texture instanceof Texture) {
       texture.wrapS = RepeatWrapping;
@@ -14,10 +15,8 @@ export function Ground() {
     }
   }) as Texture;
 
-  // Загрузка карты запеченных теней (Ambient Occlusion)
   const aoMap = useLoader(TextureLoader, "/textures/ground-ao.png") as Texture;
 
-  // Загрузка альфа-маски с повторением шага сетки
   const alphaMap = useLoader(TextureLoader, "/textures/alpha-map.png", (texture) => {
     if (texture instanceof Texture) {
       texture.wrapS = RepeatWrapping;
@@ -26,17 +25,14 @@ export function Ground() {
     }
   }) as Texture;
 
-  // Ссылки на 3D-объекты для низкоуровневой работы с буферами геометрии
   const meshRef = useRef<Mesh>(null);
   const meshRef2 = useRef<Mesh>(null);
 
-  // Синхронная генерация uv2-координат сразу после монтирования сцены
   useEffect(() => {
     const mesh = meshRef.current;
     const mesh2 = meshRef2.current;
     if (!mesh || !mesh2 || !mesh.geometry || !mesh2.geometry) return;
 
-    // Извлечение базовой UV-развертки и создание второго канала uv2 для шейдеров тени и маски
     const uvs = mesh.geometry.attributes.uv?.array as Float32Array;
     if (uvs) {
       mesh.geometry.setAttribute("uv2", new BufferAttribute(uvs, 2));
@@ -82,6 +78,17 @@ export function Ground() {
           reflectorOffset={0.02}
         />
       </mesh>
+
+      {/* 
+        ТВЕРДАЯ ПЛИТА ПОД ЗЕРКАЛОМ:
+        position совпадает с центром вашего зеркального круга.
+        Размеры CuboidCollider задаются как полу-размеры (half-extents):
+        args={[ширина/2, толщина/2, длина/2]}. 
+        args={[10, 0.1, 10]} создает огромную твердую площадку 20x20 метров толщиной 20см.
+      */}
+      <RigidBody type='fixed'>
+        <CuboidCollider args={[10, 0.1, 10]} position={[-2.285, -0.11, -1.325]} />
+      </RigidBody>
     </>
   );
 }
